@@ -20,7 +20,7 @@ Run the following command from the root folder of the application
 node app.js
 ```
 
-This will start the application on port 8080 - point your web browser to (http://localhost:8080/) to see the homepage.
+This will start the application on port 8080 - point your web browser to http://localhost:8080/ to see the homepage.
 
 ## Testing
 Tests have been written using the [Mocha](https://mochajs.org/) JavaScript test framework - to execute the tests, run
@@ -30,4 +30,5 @@ npm test
 ```
 
 ## Notes
-TODO
+The project has been written using a TDD approach. Unit tests can be found under the _test_ folder.
+I chose the technology stack (Node and Express) as this is, what I understand, is used at Holiday Extras. This also provided me with a further challenge to up my JavaScript skills.
