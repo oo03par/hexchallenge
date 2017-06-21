@@ -1,0 +1,19 @@
+{
+  "name": "hexchallenge",
+  "version": "1.0.0",
+  "description": "Holiday Extras remote code challenge",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oo03par/hexchallenge.git"
+  },
+  "author": "Phil Riley",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/oo03par/hexchallenge/issues"
+  },
+  "homepage": "https://github.com/oo03par/hexchallenge#readme"
+}
