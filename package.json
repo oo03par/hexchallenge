@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/oo03par/hexchallenge/issues"
   },
-  "homepage": "https://github.com/oo03par/hexchallenge#readme"
+  "homepage": "https://github.com/oo03par/hexchallenge#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "express": "^4.15.3"
+  }
 }
