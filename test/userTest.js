@@ -120,4 +120,49 @@ describe('User Controller', function() {
 				});
 		});
 	});
+
+	describe('Delete existing user endpoint', function() {
+		it('should return a 404 when the user is not found', function(done) {
+			chai
+				.request(app)
+				.delete('/user/wibble')
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+
+		it('should return 202 for existing user', function(done) {
+			let user = new User({email:"deleteme@example.com", forename:"Delete", surname:"Me"});
+
+			user.save();
+
+			let id = user._id;
+
+			chai
+				.request(app)
+				.delete('/user/' + id)
+				.end((err, res) => {
+					res.should.have.status(202);
+					done();
+				});		
+		});
+
+		it('should delete existing user', function(done) {
+			let user = new User({email:"deleteme@example.com", forename:"Delete", surname:"Me"});
+
+			user.save();
+
+			let id = user._id;
+
+			chai
+				.request(app)
+				.delete('/user/' + id)
+				.end((err, res) => {
+					User.findById(id, function(err, found) {
+						if (!found) done();
+					});
+				});		
+		});
+	});
 });

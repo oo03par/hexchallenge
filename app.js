@@ -25,7 +25,9 @@ app.route("/user")
 	.get(userController.getUsers)
 	.post(userController.createUser);
 
-app.route("/user/:id").get(userController.getUser);
+app.route("/user/:id")
+	.get(userController.getUser)
+	.delete(userController.deleteUser);
 
 app.listen(port, function () {
   console.log('Application running')

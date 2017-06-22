@@ -37,4 +37,16 @@ function createUser(req, res) {
     });
 }
 
-module.exports = {getUsers, getUser, createUser}
+function deleteUser(req, res) {
+	var id = req.params.id;
+	if (mongoose.Types.ObjectId.isValid(id)) {
+		User.remove({_id:id}, function(err, user) {
+			if (err) res.status(500).send(err);
+			res.status(202).send();
+		});
+	} else {
+		res.status(404).send();
+	}	
+}
+
+module.exports = {getUsers, getUser, createUser, deleteUser}
