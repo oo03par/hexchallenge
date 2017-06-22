@@ -29,6 +29,20 @@ npm start
 
 This will start the application on port 8080 - point your web browser to http://localhost:8080/ to see the homepage.
 
+### Endpoints
+
+The following endpoints have been written:
+- GET - `/user` - Get all users
+- POST - `/user` - Create a new user. Body must be sent as From URL Encoded data, with the following parameters
+-- email - The user's email address - required
+-- forename - The user's forename - optional, 50 characters or less
+-- surname - The user's surname - optional, 100 characters or less
+- GET - `/user/{id}` - Read the user data
+- PUT - `/user/{id}` - Update the user with new information. Body as for create
+- DELETE - `/user/{id}` - Delete the specific user
+
+There is also a swagger file in the project.
+
 ## Testing
 Tests have been written using the [Mocha](https://mochajs.org/) JavaScript test framework - to execute the tests, run
 
