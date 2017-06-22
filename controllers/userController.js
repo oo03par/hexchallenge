@@ -72,7 +72,15 @@ function validate(req, res, next) {
 	var errors = [];
 	if (!body.email) {
 		errors.push({'error':'email is required field'});
-	} 
+	}
+
+	if (body.forename && body.forename.length > 50) {
+		errors.push({'error': 'forename must be less than 50 characters'});
+	}
+
+	if (body.surname && body.surname.length > 100) {
+		errors.push({'error': 'surname must be less than 100 characters'});
+	}
 
 	if (errors.length > 0){
 		res.status(400).send({'errors': errors});

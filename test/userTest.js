@@ -133,10 +133,36 @@ describe('User Controller', function() {
 					res.body.should.be.a('object');
 					res.body.should.have.property('errors');
 					res.body.errors.should.be.a('array');
+					res.body.errors.length.should.be.eql(1);
 					res.body.errors[0].should.have.property('error');
 					res.body.errors[0].error.should.be.eql('email is required field');
 					done();
 				});			
+		});
+
+		it('should not add new user if forename and surname too long', function(done){
+			let user = {
+				email:"a@example.com", 
+				forename:"51charslong_nzwjUGiOvVo9SP8YRamFwH60QaSwJScmzR1ImWD5quTQZDzG8Gv", 
+				surname:"101charslong_BXBMIlMl9R9R1aDkxGuk8Xfhu20A1Ce3CM2JBqZfIrYNQy1ZbimiUUJKPT8nmVNQhib4iDASROTY7lP8oFD6UN6hIOUbgTeQVufrJ"
+			};
+		
+			chai
+				.request(app)
+				.post('/user')
+				.send(user)
+				.end((err, res) => {
+					res.should.have.status(400);
+					res.body.should.be.a('object');
+					res.body.should.have.property('errors');
+					res.body.errors.should.be.a('array');
+					res.body.errors.length.should.be.eql(2);
+					res.body.errors[0].should.have.property('error');
+					res.body.errors[0].error.should.be.eql('forename must be less than 50 characters');
+					res.body.errors[1].should.have.property('error');
+					res.body.errors[1].error.should.be.eql('surname must be less than 100 characters');
+					done();
+				});	
 		});
 	});
 
