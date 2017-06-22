@@ -6,6 +6,13 @@ The following are pre-requisite of the project:
 
 * [NodeJS](https://nodejs.org/en/) - built with version 4.4.7
 * [npm](https://www.npmjs.com/) - built with version 2.15.8
+* [MongoDB](https://www.mongodb.com/) - run against version 3.2.8
+
+The project has been written to use Mongo in non-authenticated mode. I am running in a docker container using the following docker command
+
+```
+docker run --name mongo -p 27017:27017 -d mongo
+```
 
 Please check the project out and run the following command to update local packages etc.:
 
@@ -17,7 +24,7 @@ npm update
 Run the following command from the root folder of the application
 
 ```
-node app.js
+npm start
 ```
 
 This will start the application on port 8080 - point your web browser to http://localhost:8080/ to see the homepage.
