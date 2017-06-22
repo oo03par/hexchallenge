@@ -22,11 +22,11 @@ app.get('/', function (req, res) {
 });
 
 app.route("/user")
-	.get(userController.getUsers)
+	.get(userController.allUsers)
 	.post(userController.createUser);
 
 app.route("/user/:id")
-	.get(userController.getUser)
+	.get(userController.readUser)
 	.delete(userController.deleteUser)
 	.put(userController.updateUser);
 

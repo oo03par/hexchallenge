@@ -3,14 +3,14 @@
 let mongoose = require('mongoose');
 let User = require('../models/user');
 
-function getUsers(req, res) {
+function allUsers(req, res) {
 	User.find(function(err, users){
 		if (err) res.status(500).send(err);
 		res.json(users);
 	});
 }
 
-function getUser(req, res) {
+function readUser(req, res) {
 	var id = req.params.id;
 	if (mongoose.Types.ObjectId.isValid(id)) {
 		User.findById(id, function(err, user) {
@@ -67,4 +67,4 @@ function updateUser(req, res) {
 	}
 }
 
-module.exports = {getUsers, getUser, createUser, deleteUser, updateUser}
+module.exports = {allUsers, readUser, createUser, deleteUser, updateUser}
