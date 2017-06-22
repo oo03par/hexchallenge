@@ -165,4 +165,57 @@ describe('User Controller', function() {
 				});		
 		});
 	});
+
+	describe('Update existing user endpoint', function() {
+		let updateUserData = {email:"updated@example.com", forename:"Changed", surname: "man"};
+
+		it('should return 404 when user is not found', function(done) {
+			chai
+				.request(app)
+				.put('/user/wibble')
+				.send(updateUserData)
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+
+		it('should return 200 with new user data for existing user', function(done){
+			let user = new User({email:"updateme@example.com", forename:"Update", surname:"Me"});
+			user.save();
+			let id = user._id;
+
+			chai
+				.request(app)
+				.put('/user/' + id)
+				.send(updateUserData)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.email.should.be.eql(updateUserData.email);
+					res.body.forename.should.be.eql(updateUserData.forename);
+					res.body.surname.should.be.eql(updateUserData.surname);
+					done();
+				});
+		});
+
+		it('should update the underlying user record', function(done) {
+			let user = new User({email:"updateme@example.com", forename:"Update", surname:"Me"});
+			user.save();
+			let id = user._id;
+
+			chai
+				.request(app)
+				.put('/user/' + id)
+				.send(updateUserData)
+				.end((err, res) => {
+					User.findById(id, function(findErr, updated) {
+						updated.email.should.be.eql(updateUserData.email);
+						updated.forename.should.be.eql(updateUserData.forename);
+						updated.surname.should.be.eql(updateUserData.surname);
+						done();
+					});
+				});
+		});
+	});
 });

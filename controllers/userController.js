@@ -28,8 +28,6 @@ function getUser(req, res) {
 
 function createUser(req, res) {
 	var body = req.body;
-	console.log('Request body is');
-	console.log(body);
 	var newUser = new User(body);
 	newUser.save(function(err, user){
         if(err) res.status(500).send(err);
@@ -49,4 +47,24 @@ function deleteUser(req, res) {
 	}	
 }
 
-module.exports = {getUsers, getUser, createUser, deleteUser}
+function updateUser(req, res) {
+	var id = req.params.id;
+	var body = req.body;
+	if (mongoose.Types.ObjectId.isValid(id)) {
+		User.findById(id, function(err, found){
+			if(err) res.status(500).send(err);
+			if(found){
+				Object.assign(found, body).save(function(err, saved) {
+					if(err) res.status(500).send(err);
+					res.json(saved);
+				});
+			} else {
+				res.status(404).send();
+			}
+		});
+	} else {
+		res.status(404).send();
+	}
+}
+
+module.exports = {getUsers, getUser, createUser, deleteUser, updateUser}

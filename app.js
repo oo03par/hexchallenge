@@ -27,7 +27,8 @@ app.route("/user")
 
 app.route("/user/:id")
 	.get(userController.getUser)
-	.delete(userController.deleteUser);
+	.delete(userController.deleteUser)
+	.put(userController.updateUser);
 
 app.listen(port, function () {
   console.log('Application running')
