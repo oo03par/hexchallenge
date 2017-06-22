@@ -67,3 +67,41 @@ describe('User Controller - All users', function() {
 	 		});
 	});
 });
+
+describe('User Controller - get existing user', function() {
+	beforeEach(function(done) {
+		User.remove({}, (err) => {
+			done();
+		})
+	});
+
+	it('should return a 404 when user is not found', function(done) {
+		chai
+			.request(app)
+			.get('/user/wibble')
+			.end((err, res) => {
+				res.should.have.status(404);
+				done();
+			});
+	});
+
+	it('should return the correct user details when requested', function(done) {
+		let user0 = new User({email:"zero@example.com", forename:"Zero", surname:"Noone"});
+
+		user0.save();
+
+		let id = user0._id;
+
+		chai
+			.request(app)
+			.get('/user/' + id)
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.email.should.be.eql(user0.email);
+				res.body.forename.should.be.eql(user0.forename);
+				res.body.surname.should.be.eql(user0.surname);
+				done();
+			});
+	});
+});

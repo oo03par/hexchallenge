@@ -15,9 +15,8 @@ app.get('/', function (req, res) {
   res.send('Holiday Extras Remote Code Challenge')
 });
 
-app
-	.route("/user")
-    .get(userController.getUsers);
+app.route("/user").get(userController.getUsers);
+app.route("/user/:id").get(userController.getUser);
 
 app.listen(port, function () {
   console.log('Application running')
