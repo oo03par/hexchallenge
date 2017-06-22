@@ -1,22 +1,26 @@
 'use strict';
 
-const express = require('express')
-const app = express()
+let express = require('express')
+let app = express()
+let mongoose = require('mongoose')
 
+let config = require('config')
 let userController = require('./controllers/userController')
 
 let port = 8080;
 
+mongoose.connect(config.DBHost);
+
 app.get('/', function (req, res) {
   res.send('Holiday Extras Remote Code Challenge')
-})
-
-app.listen(port, function () {
-  console.log('Application running')
-})
+});
 
 app
 	.route("/user")
     .get(userController.getUsers);
+
+app.listen(port, function () {
+  console.log('Application running')
+});
 
 module.exports = app // for testing
