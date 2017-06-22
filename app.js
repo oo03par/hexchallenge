@@ -23,6 +23,7 @@ app.get('/', function (req, res) {
 
 app.route("/user")
 	.get(userController.allUsers)
+	.post(userController.validate)
 	.post(userController.createUser);
 
 app.route("/user/:id")

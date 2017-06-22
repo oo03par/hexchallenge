@@ -67,4 +67,18 @@ function updateUser(req, res) {
 	}
 }
 
-module.exports = {allUsers, readUser, createUser, deleteUser, updateUser}
+function validate(req, res, next) {
+	var body = req.body;
+	var errors = [];
+	if (!body.email) {
+		errors.push({'error':'email is required field'});
+	} 
+
+	if (errors.length > 0){
+		res.status(400).send({'errors': errors});
+	} else {
+		next();
+	}
+}
+
+module.exports = {allUsers, readUser, createUser, deleteUser, updateUser, validate}

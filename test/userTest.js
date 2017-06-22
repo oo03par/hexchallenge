@@ -120,6 +120,24 @@ describe('User Controller', function() {
 					done();
 				});
 		});
+
+		it('should not add a new user if the email is missing, returning 400', function(done) {
+			let user = {forename:"New", surname:"User"};
+		
+			chai
+				.request(app)
+				.post('/user')
+				.send(user)
+				.end((err, res) => {
+					res.should.have.status(400);
+					res.body.should.be.a('object');
+					res.body.should.have.property('errors');
+					res.body.errors.should.be.a('array');
+					res.body.errors[0].should.have.property('error');
+					res.body.errors[0].error.should.be.eql('email is required field');
+					done();
+				});			
+		});
 	});
 
 	describe('Delete existing user endpoint', function() {
