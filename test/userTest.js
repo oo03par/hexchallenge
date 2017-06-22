@@ -22,86 +22,82 @@ before(function(done) {
     });
 });
 
-describe('User Controller - All users', function() {
-	beforeEach(function(done) {
-		User.remove({}, (err) => {
-			done();
-		})
-	});
-
-	it('should return empty array when there are no users', function(done) {
-		chai
-			.request(app)
-			.get('/user')
-			.end((err, res) => {
-				res.should.have.status(200);
-				res.body.should.be.a('array');
-				res.body.length.should.be.eql(0);
+describe('User Controller', function() {
+	describe('All users endpoint', function() {
+		beforeEach(function(done) {
+			User.remove({}, (err) => {
 				done();
 			})
+		});
+
+		it('should return empty array when there are no users', function(done) {
+			chai
+				.request(app)
+				.get('/user')
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('array');
+					res.body.length.should.be.eql(0);
+					done();
+				})
+		});
+
+	 	it('should return a list of users that have been added to the data store', function(done) {
+			let user0 = new User({email:"zero@example.com", forename:"Zero", surname:"Noone"});
+			let user1 = new User({email:"one@example.com", forename:"One", surname:"Someone"});
+
+			user0.save();
+			user1.save();
+
+			chai
+				.request(app)
+				.get('/user')
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('array');
+					res.body.length.should.be.eql(2);
+					res.body[0].should.be.a('object');
+					res.body[0].email.should.be.eql(user0.email);
+					res.body[0].forename.should.be.eql(user0.forename);
+					res.body[0].surname.should.be.eql(user0.surname);
+					res.body[1].should.be.a('object');
+					res.body[1].email.should.be.eql(user1.email);
+					res.body[1].forename.should.be.eql(user1.forename);
+					res.body[1].surname.should.be.eql(user1.surname);
+		 			done();
+		 		});
+		});
 	});
 
- 	it('should return a list of users that have been added to the data store', function(done) {
-		let user0 = new User({email:"zero@example.com", forename:"Zero", surname:"Noone"});
-		let user1 = new User({email:"one@example.com", forename:"One", surname:"Someone"});
+	describe('Get existing user endpoint', function() {
+		it('should return a 404 when user is not found', function(done) {
+			chai
+				.request(app)
+				.get('/user/wibble')
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
 
-		user0.save();
-		user1.save();
+		it('should return the correct user details when requested', function(done) {
+			let user0 = new User({email:"zero@example.com", forename:"Zero", surname:"Noone"});
 
-		chai
-			.request(app)
-			.get('/user')
-			.end((err, res) => {
-				res.should.have.status(200);
-				res.body.should.be.a('array');
-				res.body.length.should.be.eql(2);
-				res.body[0].should.be.a('object');
-				res.body[0].email.should.be.eql(user0.email);
-				res.body[0].forename.should.be.eql(user0.forename);
-				res.body[0].surname.should.be.eql(user0.surname);
-				res.body[1].should.be.a('object');
-				res.body[1].email.should.be.eql(user1.email);
-				res.body[1].forename.should.be.eql(user1.forename);
-				res.body[1].surname.should.be.eql(user1.surname);
-	 			done();
-	 		});
-	});
-});
+			user0.save();
 
-describe('User Controller - get existing user', function() {
-	beforeEach(function(done) {
-		User.remove({}, (err) => {
-			done();
-		})
-	});
+			let id = user0._id;
 
-	it('should return a 404 when user is not found', function(done) {
-		chai
-			.request(app)
-			.get('/user/wibble')
-			.end((err, res) => {
-				res.should.have.status(404);
-				done();
-			});
-	});
-
-	it('should return the correct user details when requested', function(done) {
-		let user0 = new User({email:"zero@example.com", forename:"Zero", surname:"Noone"});
-
-		user0.save();
-
-		let id = user0._id;
-
-		chai
-			.request(app)
-			.get('/user/' + id)
-			.end((err, res) => {
-				res.should.have.status(200);
-				res.body.should.be.a('object');
-				res.body.email.should.be.eql(user0.email);
-				res.body.forename.should.be.eql(user0.forename);
-				res.body.surname.should.be.eql(user0.surname);
-				done();
-			});
+			chai
+				.request(app)
+				.get('/user/' + id)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					res.body.email.should.be.eql(user0.email);
+					res.body.forename.should.be.eql(user0.forename);
+					res.body.surname.should.be.eql(user0.surname);
+					done();
+				});
+		});
 	});
 });
