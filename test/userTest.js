@@ -100,4 +100,24 @@ describe('User Controller', function() {
 				});
 		});
 	});
+
+	describe('Add new user endpoint', function() {
+		it('should add a new user and return 201', function(done) {
+			let user = {email:"new.user@example.com", forename:"New", surname:"User"};
+		
+			chai
+				.request(app)
+				.post('/user')
+				.send(user)
+				.end((err, res) => {
+					res.should.have.status(201);
+					res.body.should.be.a('object');
+					res.body.email.should.be.eql(user.email);
+					res.body.forename.should.be.eql(user.forename);
+					res.body.surname.should.be.eql(user.surname);
+					res.body.should.have.property('_id');
+					done();
+				});
+		});
+	});
 });

@@ -26,4 +26,15 @@ function getUser(req, res) {
 	}
 }
 
-module.exports = {getUsers, getUser}
+function createUser(req, res) {
+	var body = req.body;
+	console.log('Request body is');
+	console.log(body);
+	var newUser = new User(body);
+	newUser.save(function(err, user){
+        if(err) res.status(500).send(err);
+        res.status(201).json(user);
+    });
+}
+
+module.exports = {getUsers, getUser, createUser}
