@@ -116,6 +116,7 @@ describe('User Controller', function() {
 					res.body.forename.should.be.eql(user.forename);
 					res.body.surname.should.be.eql(user.surname);
 					res.body.should.have.property('_id');
+					res.body.should.have.property('createdAt');
 					done();
 				});
 		});
