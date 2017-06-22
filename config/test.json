@@ -1,3 +1,4 @@
 {
-	"DBHost": "localhost:27017/TestingDB"
+	"DBHost": "localhost:27017/TestingDB",
+	"port": 8080
 }

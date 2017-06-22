@@ -7,7 +7,7 @@ let mongoose = require('mongoose')
 let config = require('config')
 let userController = require('./controllers/userController')
 
-let port = 8080;
+let port = config.port;
 
 mongoose.connect(config.DBHost);
 
